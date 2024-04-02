@@ -33,7 +33,7 @@ define(["N/record", "N/log"], (record, log) => {
    * @since 2015.2
    */
   const afterSubmit = (scriptContext) => {
-    try {
+     try {
       const newRec = scriptContext.newRecord;
 
       const creditMemoId = newRec.id;
@@ -51,26 +51,34 @@ define(["N/record", "N/log"], (record, log) => {
         isDynamic: true,
       });
 
+
+       
       // Set customer on the customer refund record
       custRefund.setValue({
         fieldId: "customer",
         value: customerId,
       });
 
-      const linecount = custRefund.getLineCount({ sublistId: "apply" });
+
+         const linecount = custRefund.getLineCount({ sublistId: "apply" });
       log.debug("linecount", linecount);
 
-      const apply = custRefund.selectLine({
-        sublistId: "apply",
-        line: 0,
-      });
-      log.debug("apply", apply);
+
+      
+      const apply =custRefund.selectLine({
+          sublistId:'apply',
+        line:0
+      })
+      log.debug('apply',apply)
+
+    
 
       custRefund.setCurrentSublistValue({
         sublistId: "apply",
         fieldId: "apply",
         value: true,
       });
+
 
       custRefund.commitLine({ sublistId: "apply" });
 
@@ -88,5 +96,6 @@ define(["N/record", "N/log"], (record, log) => {
     }
   };
 
-  return { beforeLoad, beforeSubmit, afterSubmit };
+  return {beforeLoad,beforeSubmit, afterSubmit };
 });
+
